@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Tag" table="tag">
+    <indexes>
+      <index name="source" columns="source_id"/>
+      <index name="thumb_id" columns="thumb_id"/>
+      <index name="type" columns="type"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="date" type="datetime" column="date" nullable="false"/>
+    <field name="number" type="integer" column="number" nullable="false">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="rating" type="float" column="rating" precision="10" scale="0" nullable="false"/>
+    <field name="favourite" type="boolean" column="favourite" nullable="false"/>
+    <many-to-one field="type" target-entity="TagType" fetch="LAZY">
+      <join-columns>
+        <join-column name="type" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="thumb" target-entity="File" fetch="LAZY">
+      <join-columns>
+        <join-column name="thumb_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="source" target-entity="Source" fetch="LAZY">
+      <join-columns>
+        <join-column name="source_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-many field="file" target-entity="File" mapped-by="tag" fetch="LAZY"/>
+  </entity>
+</doctrine-mapping>
